@@ -1,12 +1,12 @@
 branch-defaults:
   ci/eb-deploy:
-    environment: Nestjs-CD-EB-env
+    environment: Nestjs-CD-Pipeline-env
 environment-defaults:
-  Nestjs-CD-EB-env:
+  Nestjs-CD-Pipeline-env:
     branch: null
     repository: null
 global:
-  application_name: Nest.js-CD-EB
+  application_name: Nestjs-CD-Pipeline
   default_ec2_keyname: hub-key
   default_platform: Node.js 18 running on 64bit Amazon Linux 2023
   default_region: us-east-1
