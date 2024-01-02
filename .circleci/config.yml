@@ -51,8 +51,8 @@ workflows:
     jobs:
       - build-phase
       - unit-test
-        - requires:
+        requires:
           - build-phase
       - e2e-test
-        - requires:
+        requires:
           - build-phase
