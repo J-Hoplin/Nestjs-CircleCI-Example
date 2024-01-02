@@ -46,6 +46,14 @@ jobs:
       - attach_workspace:
           at: .
       - e2e-test-commands
+  elastic-beanstalk-deploy:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - eb/setup
+      - run:
+          command: eb deploy Nestjs-CD-Pipeline-env
 
 workflows:
   build_and_test:
@@ -57,3 +65,7 @@ workflows:
       - e2e-test:
           requires:
             - build-phase
+      - elastic-beanstalk-deploy:
+          requires:
+            - unit-test
+            - e2e-test
