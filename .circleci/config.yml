@@ -1,7 +1,6 @@
 version: 2.1
 orbs:
   eb: circleci/aws-elastic-beanstalk@2.0.1
-
 commands:
   build-commands:
     description: Install Packages, Build project, generate .ci.env
@@ -23,7 +22,7 @@ commands:
 jobs:
   build-phase:
     docker:
-      - image: node/18
+      - image: cimg/node:18.0
     steps:
       - checkout
       - build-commands
@@ -33,7 +32,7 @@ jobs:
             - .
   unit-test:
     docker:
-      - image: node/18
+      - image: cimg/node:18.0
     steps:
       - checkout
       - attach_workspace:
@@ -41,7 +40,7 @@ jobs:
       - unit-test-commands
   e2e-test:
     docker:
-      - image: node/18
+      - image: cimg/node:18.0
     steps:
       - checkout
       - attach_workspace:
