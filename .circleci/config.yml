@@ -22,37 +22,38 @@ commands:
 jobs:
   build-phase:
     docker:
-      - image: node/18
+      - image: cimg/node:18.0
     steps:
       - checkout
       - build-commands
       - persist_to_workspace:
-        root: .
-        paths:
-          - .
+          root: .
+          paths:
+            - .
   unit-test:
     docker:
-      - image: node/18
+      - image: cimg/node:18.0
     steps:
       - checkout
       - attach_workspace:
-        at: .
+          at: .
       - unit-test-commands
   e2e-test:
     docker:
-      - image: node/18
+      - image: cimg/node:18.0
     steps:
       - checkout
       - attach_workspace:
-        at: .
+          at: .
       - e2e-test-commands
+
 workflows:
   build_and_test:
     jobs:
       - build-phase
       - unit-test:
-        requires:
-          - build-phase
+          requires:
+            - build-phase
       - e2e-test:
-        requires:
-          - build-phase
+          requires:
+            - build-phase
