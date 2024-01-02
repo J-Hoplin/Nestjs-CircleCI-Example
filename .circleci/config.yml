@@ -65,3 +65,7 @@ workflows:
       - e2e-test:
           requires:
             - build-phase
+      - elastic-beanstalk-deploy:
+          requires:
+            - unit-test
+            - e2e-test
