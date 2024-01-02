@@ -10,7 +10,7 @@ commands:
       - run: echo "DATABASE_URL=$DATABASE_URL" >> .ci.env
   unit-test-commands:
     description: Unit Test for project
-    steps: 
+    steps:
       - run: npm install -g dotenv-cli
       - run: npm run ci:unit
   e2e-test-commands:
@@ -41,7 +41,7 @@ jobs:
   e2e-test:
     docker:
       - image: node/18
-    steps: 
+    steps:
       - checkout
       - attach_workspace:
         at: .
@@ -50,9 +50,9 @@ workflows:
   build_and_test:
     jobs:
       - build-phase
-      - unit-test
+      - unit-test:
         requires:
           - build-phase
-      - e2e-test
+      - e2e-test:
         requires:
           - build-phase
