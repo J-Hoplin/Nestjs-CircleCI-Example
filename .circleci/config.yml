@@ -1,0 +1,58 @@
+version: 2.1
+orbs:
+  eb: circleci/aws-elastic-beanstalk@2.0.1
+commands:
+  build-commands:
+    description: Install Packages, Build project, generate .ci.env
+    steps:
+      - run: npm install
+      - run: npm run build
+      - run: echo "DATABASE_URL=$DATABASE_URL" >> .ci.env
+  unit-test-commands:
+    description: Unit Test for project
+    steps: 
+      - run: npm install -g dotenv-cli
+      - run: npm run ci:unit
+  e2e-test-commands:
+    description: e2e Test for project
+    steps:
+      - run: npm install -g dotenv-cli
+      - run: npm run ci:e2e
+
+jobs:
+  build-phase:
+    docker:
+      - image: node/18
+    steps:
+      - checkout
+      - build-commands
+      - persist_to_workspace:
+        root: .
+        paths:
+          - .
+  unit-test:
+    docker:
+      - image: node/18
+    steps:
+      - checkout
+      - attach_workspace:
+        at: .
+      - unit-test-commands
+  e2e-test:
+    docker:
+      - image: node/18
+    steps: 
+      - checkout
+      - attach_workspace:
+        at: .
+      - e2e-test-commands
+workflows:
+  build_and_test:
+    jobs:
+      - build-phase
+      - unit-test
+        - requires:
+          - build-phase
+      - e2e-test
+        - requires:
+          - build-phase
