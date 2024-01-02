@@ -53,7 +53,7 @@ jobs:
       - checkout
       - eb/setup
       - run:
-          command: eb deploy Nestjs-CD-EB-env
+          command: eb deploy Nestjs-CD-Pipeline-env
 
 workflows:
   build_and_test:
