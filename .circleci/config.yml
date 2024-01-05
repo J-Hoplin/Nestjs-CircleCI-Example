@@ -47,8 +47,8 @@ jobs:
           at: .
       - e2e-test-commands
   elastic-beanstalk-deploy:
-    docker:
-      - image: cimg/base:stable
+    machine: true
+    resource_class: aws-self-runner/hoplin
     steps:
       - checkout
       - eb/setup
