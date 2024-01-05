@@ -8,7 +8,6 @@ commands:
       - run: npm install
       - run: npm run build
       - run: echo "DATABASE_URL=$DATABASE_URL" >> .ci.env
-      - run: ls
   unit-test-commands:
     description: Unit Test for project
     steps:
@@ -22,8 +21,8 @@ commands:
 
 jobs:
   build-phase:
-    machine: true
-    resource_class: aws-self-runner/hoplin
+    docker:
+      - image: cimg/node:18.0
     steps:
       - checkout
       - build-commands
@@ -60,13 +59,13 @@ workflows:
   build_test_deploy:
     jobs:
       - build-phase
-      # - unit-test:
-      #     requires:
-      #       - build-phase
-      # - e2e-test:
-      #     requires:
-      #       - build-phase
-      # - elastic-beanstalk-deploy:
-      #     requires:
-      #       - unit-test
-      #       - e2e-test
+      - unit-test:
+          requires:
+            - build-phase
+      - e2e-test:
+          requires:
+            - build-phase
+      - elastic-beanstalk-deploy:
+          requires:
+            - unit-test
+            - e2e-test
