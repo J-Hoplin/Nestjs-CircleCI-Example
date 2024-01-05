@@ -8,21 +8,21 @@ commands:
       - run: npm install
       - run: npm run build
       - run: echo "DATABASE_URL=$DATABASE_URL" >> .ci.env
-      - run: ls
-      - run: pwd
   unit-test-commands:
     description: Unit Test for project
     steps:
+      - run: npm install -g dotenv-cli
       - run: npm run ci:unit
   e2e-test-commands:
     description: e2e Test for project
     steps:
+      - run: npm install -g dotenv-cli
       - run: npm run ci:e2e
 
 jobs:
   build-phase:
-    machine: true
-    resource_class: aws-self-runner/hoplin
+    docker:
+      - image: cimg/node:18.0
     steps:
       - checkout
       - build-commands
@@ -31,16 +31,16 @@ jobs:
           paths:
             - .
   unit-test:
-    machine: true
-    resource_class: aws-self-runner/hoplin
+    docker:
+      - image: cimg/node:18.0
     steps:
       - checkout
       - attach_workspace:
           at: .
       - unit-test-commands
   e2e-test:
-    machine: true
-    resource_class: aws-self-runner/hoplin
+    docker:
+      - image: cimg/node:18.0
     steps:
       - checkout
       - attach_workspace:
