@@ -9,6 +9,7 @@ commands:
       - run: npm run build
       - run: echo "DATABASE_URL=$DATABASE_URL" >> .ci.env
       - run: ls
+      - run: pwd
   unit-test-commands:
     description: Unit Test for project
     steps:
